@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLASS FUNDS BSCS-1B</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+        .logo {width: 50px;height: 50px;background-color: #4CAF50;display: flex;align-items: center;justify-content: center;color: white;font-weight: bold;border-radius: 10px;}
+        .receipt-img {max-width: 200px;max-height: 200px;border-radius: 4px;border: 1px solid #ddd;}
+        .active-tab {border-bottom: 3px solid #4CAF50;font-weight: bold;}
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto p-4 max-w-5xl">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+            <div class="flex items-center space-x-4">
+                <div class="logo">CS</div>
+                <h1 class="text-2xl font-bold text-gray-800">CLASS FUNDS BSCS-1B</h1>
+            </div>
+            <div class="flex space-x-4 bg-gray-100 p-1 rounded-lg">
+                <a href="#admin" class="px-4 py-2 rounded-lg active-tab">Admin</a>
+                <a href="#view" class="px-4 py-2 rounded-lg">View</a>
+            </div>
+        </div>
+
+        <!-- Admin Section -->
+        <div id="admin" class="tab-content">
+            <!-- Contribution Management -->
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">Manage Contributions</h2>
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr><th class="px-6 py-3">No.</th><th class="px-6 py-3">Student Name</th><th class="px-6 py-3">Total</th><th class="px-6 py-3">Actions</th></tr>
+                        </thead>
+                        <tbody id="studentsTable"></tbody>
+                        <tfoot class="bg-gray-100 font-semibold"><tr><td colspan="2" class="px-6 py-4 text-right">Total Funds:</td><td id="totalFunds" class="px-6 py-4">0 Pesos</td><td></td></tr></tfoot>
+                    </table>
+                </div>
+                <div class="bg-white p-4 border rounded-lg mb-6">
+                    <h3 class="text-lg font-medium mb-3">Add New Student</h3>
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="newStudentName" placeholder="Student Name" class="flex-1 px-3 py-2 border rounded-md">
+                        <button onclick="addStudent()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Announcements -->
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">Announcements</h2>
+                <div id="announcementList" class="space-y-4"><div class="text-gray-500 italic">No announcements yet</div></div>
+                <textarea id="newAnnouncementText" class="w-full p-3 border rounded-md mb-2" placeholder="Write new announcement"></textarea>
+                <div class="flex items-center gap-4">
+                    <input type="file" id="announcementImage" accept="image/*" class="hidden">
+                    <label for="announcementImage" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md cursor-pointer">Upload Image</label>
+                    <button onclick="postAnnouncement()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">Post Announcement</button>
+                </div>
+                <div id="announcementImagePreview" class="mt-4 hidden"><img id="previewImage" class="receipt-img" src="#" alt="Preview"></div>
+
+                <!-- Expense Form -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-medium mb-2">Record Expense</h3>
+                    <input type="text" id="expenseDesc" placeholder="Expense Description (e.g., Walis)" class="w-full px-3 py-2 border rounded-md mb-2">
+                    <input type="number" id="expenseAmount" placeholder="Amount" class="w-full px-3 py-2 border rounded-md mb-2">
+                    <button onclick="recordExpense()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">Record Expense</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Section -->
+        <div id="view" class="tab-content hidden">
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">Class Contributions</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50"><tr><th class="px-6 py-3">Student Name</th><th class="px-6 py-3">Total</th><th class="px-6 py-3">History</th></tr></thead>
+                        <tbody id="viewTable"></tbody>
+                        <tfoot class="bg-gray-100 font-semibold"><tr><td class="px-6 py-4 text-right">Total Funds:</td><td id="viewTotalFunds" class="px-6 py-4">0 Pesos</td><td></td></tr></tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">Announcements</h2>
+                <div id="studentAnnouncementList" class="space-y-4"><div class="text-gray-500 italic">No announcements yet</div></div>
+            </div>
+        </div>
+
+        <!-- Contribution Modal -->
+        <div id="contributionModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md"><div class="p-6">
+                <h3 class="text-lg font-medium mb-4">Add Contribution</h3>
+                <input type="text" id="modalStudentName" readonly class="w-full px-3 py-2 border rounded-md mb-3">
+                <input type="number" id="modalAmount" class="w-full px-3 py-2 border rounded-md mb-3" value="0">
+                <label for="contributionReceipt" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md cursor-pointer">Upload Receipt</label>
+                <input type="file" id="contributionReceipt" accept="image/*" class="hidden">
+                <div id="receiptPreviewContainer" class="mt-2 hidden"><img id="receiptPreview" src="#" class="receipt-img"></div>
+                <div class="flex justify-end mt-4 space-x-3"><button onclick="closeModal()" class="px-4 py-2 border rounded-md">Cancel</button><button onclick="saveContribution()" class="px-4 py-2 bg-green-600 text-white rounded-md">Save</button></div>
+            </div></div>
+        </div>
+
+        <!-- History Modal -->
+        <div id="historyModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md"><div class="p-6">
+                <h3 id="historyModalTitle" class="text-lg font-medium mb-4">Contribution History</h3>
+                <div id="historyContent" class="max-h-96 overflow-y-auto"></div>
+                <div class="flex justify-end mt-4"><button onclick="closeHistoryModal()" class="px-4 py-2 bg-green-600 text-white rounded-md">Close</button></div>
+            </div></div>
+        </div>
+    </div>
+
+<script>
+let students=[{id:1,name:"Juan Dela Cruz",total:0,history:[]},{id:2,name:"Maria Santos",total:0,history:[]}];
+let announcements=[];let currentStudentId=null;let currentReceipt=null;
+
+window.onload=()=>{updateStudentsTable();updateViewTable();updateAnnouncements();document.querySelectorAll('a[href^="#"]').forEach(link=>{link.onclick=e=>{e.preventDefault();document.querySelectorAll('.tab-content').forEach(tab=>tab.classList.add('hidden'));document.getElementById(link.getAttribute('href').substring(1)).classList.remove('hidden');document.querySelectorAll('a[href^="#"]').forEach(l=>l.classList.remove('active-tab'));link.classList.add('active-tab');if(link.getAttribute('href')==="#view")updateViewTable();};});document.getElementById('contributionReceipt').addEventListener('change',e=>{const file=e.target.files[0];if(file){const reader=new FileReader();reader.onload=ev=>{document.getElementById('receiptPreview').src=ev.target.result;document.getElementById('receiptPreviewContainer').classList.remove('hidden');currentReceipt=ev.target.result;};reader.readAsDataURL(file);}});document.getElementById('announcementImage').addEventListener('change',e=>{const file=e.target.files[0];if(file){const reader=new FileReader();reader.onload=ev=>{document.getElementById('previewImage').src=ev.target.result;document.getElementById('announcementImagePreview').classList.remove('hidden');};reader.readAsDataURL(file);}});};
+
+function updateStudentsTable(){const body=document.getElementById('studentsTable');body.innerHTML='';students.forEach(s=>{body.innerHTML+=`<tr class='hover:bg-gray-50'><td class='px-6 py-3'>${s.id}</td><td class='px-6 py-3'><input value='${s.name}' class='w-full border-b' onchange='students.find(st=>st.id==${s.id}).name=this.value'></td><td class='px-6 py-3'><input type='number' value='${s.total}' class='w-24 border-b' onchange='students.find(st=>st.id==${s.id}).total=parseFloat(this.value)||0;updateTotalFunds()'></td><td class='px-6 py-3 space-x-2'><button onclick='openContributionModal(${s.id})' class='bg-green-100 text-green-700 px-2 rounded'>Add</button><button onclick='openHistoryModal(${s.id})' class='bg-blue-100 text-blue-700 px-2 rounded'>History</button></td></tr>`});updateTotalFunds();}
+
+function updateTotalFunds(){const total=students.reduce((sum,s)=>sum+s.total,0);document.getElementById('totalFunds').textContent=total+" Pesos";document.getElementById('viewTotalFunds').textContent=total+" Pesos";}
+
+function updateViewTable(){const body=document.getElementById('viewTable');body.innerHTML='';students.forEach(s=>{body.innerHTML+=`<tr class='hover:bg-gray-50'><td class='px-6 py-3'>${s.name}</td><td class='px-6 py-3'>${s.total} Pesos</td><td class='px-6 py-3'><button onclick='openHistoryModal(${s.id})' class='bg-blue-100 text-blue-700 px-2 rounded'>View</button></td></tr>`});}
+
+function addStudent(){const name=document.getElementById('newStudentName').value.trim();if(name){const id=students.length?Math.max(...students.map(s=>s.id))+1:1;students.push({id,name,total:0,history:[]});updateStudentsTable();updateViewTable();document.getElementById('newStudentName').value='';}}
+
+function openContributionModal(id){currentStudentId=id;document.getElementById('modalStudentName').value=students.find(s=>s.id==id).name;document.getElementById('modalAmount').value=0;document.getElementById('contributionModal').classList.remove('hidden');}
+
+function saveContribution(){const amount=parseFloat(document.getElementById('modalAmount').value);if(amount>0){const student=students.find(s=>s.id==currentStudentId);student.total+=amount;student.history.push({amount,date:new Date().toLocaleString('en-PH'),receipt:currentReceipt});updateStudentsTable();updateViewTable();closeModal();currentReceipt=null;}}
+
+function openHistoryModal(id){const student=students.find(s=>s.id==id);document.getElementById('historyModalTitle').textContent=`${student.name}'s Contribution History`;const content=document.getElementById('historyContent');content.innerHTML='';if(!student.history.length){content.innerHTML='<p class=\"text-gray-500 italic\">No contributions yet</p>';}else{student.history.forEach(h=>{content.innerHTML+=`<div class='border-b py-2'><div class='font-medium'>${h.amount} Pesos - ${h.date}</div>${h.receipt?`<img src='${h.receipt}' class='receipt-img mt-2'>`:''}</div>`;});}document.getElementById('historyModal').classList.remove('hidden');}
+
+function closeModal(){document.getElementById('contributionModal').classList.add('hidden');}
+function closeHistoryModal(){document.getElementById('historyModal').classList.add('hidden');}
+
+function postAnnouncement(){const text=document.getElementById('newAnnouncementText').value.trim();const file=document.getElementById('announcementImage').files[0];if(file){const reader=new FileReader();reader.onload=e=>{announcements.push({text,image:e.target.result,date:new Date().toLocaleString('en-PH')});updateAnnouncements();};reader.readAsDataURL(file);}else if(text){announcements.push({text,image:null,date:new Date().toLocaleString('en-PH')});updateAnnouncements();}document.getElementById('newAnnouncementText').value='';document.getElementById('announcementImage').value='';document.getElementById('announcementImagePreview').classList.add('hidden');}
+
+function updateAnnouncements(){const adminList=document.getElementById('announcementList');const studentList=document.getElementById('studentAnnouncementList');adminList.innerHTML='';studentList.innerHTML='';if(!announcements.length){adminList.innerHTML='<div class="text-gray-500 italic">No announcements yet</div>';studentList.innerHTML='<div class="text-gray-500 italic">No announcements yet</div>';return;}announcements.forEach((a,i)=>{const adminCard=`<div class='p-3 border rounded'><p>${a.text}</p>${a.image?`<img src='${a.image}' class='receipt-img mt-2'>`:''}<div class='text-xs text-gray-500 mt-1'>${a.date}</div><button onclick='deleteAnnouncement(${i})' class='mt-2 bg-red-100 text-red-600 px-2 rounded'>Delete</button></div>`;const studentCard=`<div class='p-3 border rounded'><p>${a.text}</p>${a.image?`<img src='${a.image}' class='receipt-img mt-2'>`:''}<div class='text-xs text-gray-500 mt-1'>${a.date}</div></div>`;adminList.innerHTML+=adminCard;studentList.innerHTML+=studentCard;});}
+
+function deleteAnnouncement(index){announcements.splice(index,1);updateAnnouncements();}
+
+// Expense with password protection
+function recordExpense(){const desc=document.getElementById('expenseDesc').value.trim();const amt=parseFloat(document.getElementById('expenseAmount').value);if(!desc||!amt||amt<=0){alert('Enter valid expense details');return;}const pass=prompt('Enter admin password to confirm:');if(pass!=="BSCS112233"){alert('Incorrect password!');return;}const total=students.reduce((sum,s)=>sum+s.total,0);if(amt>total){alert('Not enough funds!');return;}
+
+// Deduct from class funds proportionally based on each student's balance
+let remaining=amt;students.forEach(s=>{if(remaining>0&&s.total>0){const deduction=Math.min(s.total,(amt/students.length));s.total-=deduction;s.history.push({amount:-deduction,date:new Date().toLocaleString('en-PH'),receipt:null});remaining-=deduction;}});
+
+announcements.push({text:`Expense Recorded: ${desc} - ${amt} Pesos deducted from Class Funds`,image:null,date:new Date().toLocaleString('en-PH')});
+
+updateStudentsTable();updateViewTable();updateAnnouncements();
+document.getElementById('expenseDesc').value='';document.getElementById('expenseAmount

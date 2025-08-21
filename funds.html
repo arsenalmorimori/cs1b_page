@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css"/>
+    <title>Funds</title>
+</head>
+<body>
+
+    <div class="page_container">
+        <div class="page_wrapper">
+
+
+            <div class="header">
+
+            </div>
+
+            <div class="funds_container">
+                <div class="wrapper">
+                    <input class="search_box" placeholder="search" type="text"/>
+                    <ol id="list">
+                    </ol>
+                </div>
+            </div>
+
+
+            <div class="popup_container">
+                <div class="wrapper">
+
+                    <div class="add_box">
+                        <h3 class="title">Midoriya, Izuku A.</h3>
+                        <input type="number" placeholder="Amount..." class="amount">
+                        <textarea placeholder="Decription..." class="description"></textarea>
+                        <button class="add">Add</button>
+                        <button class="close">Close</button>
+                    </div>
+                    
+                    <div class="view_box">
+                        <h3 class="title">Midoriya, Izuku A.</h3>
+                        <button class="close">Close</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="env.js"></script>
+    <script src="function/funds.js"></script>
+    
+</body>
+</html>
