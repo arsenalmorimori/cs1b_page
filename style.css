@@ -41,6 +41,10 @@ textarea:focus{
     outline: none;
 }
 
+.funds_container .wrapper .column_wrapper_hide{
+    display: none;
+}
+
 .funds_container .wrapper .column_wrapper #list{
     display: flex;
     flex-direction: column;

@@ -32,7 +32,6 @@ async function read(){
     let { data, error } = await client
     .from("funds_table")
     .select("*")
-    .order("name", { ascending: true }); // ascending = A → Z
 
     if(error){
         alert(error)
@@ -116,8 +115,8 @@ search_box.addEventListener("keyup", function search(){
     console.log(search_box.value)
     let isEmpty = true;
     list.innerHTML = ``
-    for(let a = 0 ; a < name_array.length ; a++){
-        if(name_array[a].toLowerCase().includes(search_box.value.toLowerCase())){
+    for(let aa = 0 ; aa < name_array.length ; aa++){
+        // if(name_array[a].toLowerCase().includes(search_box.value.toLowerCase())){
             list.innerHTML += `
              <div class="column_wrapper">
                 <button class="name_btn" value=${a}>
@@ -134,70 +133,14 @@ search_box.addEventListener("keyup", function search(){
                 </div>
             </div>`
             isEmpty = false;
-        
-        }else{
-            list.innerHTML += `
-                <div class="column_wrapper_hide">
-                    <button class="name_btn" value=${a}>
-                        <div>
-                            <span>${a}</span>
-                            <span>${name_array[a]}</span>
-                            <span> ${parseFloat(total_contribution_array[a]).toFixed(2)}</span>
-                        </div>    
-                    </button>
-
-                    <div>
-                        <button class="add_btn" value=${a}>Add</button>
-                        <button class="view_btn" value=${a}>View</button>
-                    </div>
-                </div>` 
-        }
-
-}
+        // }
+    }
 
     if(isEmpty){
         list.innerHTML += `<p>empty</p>`
     }
 
-
-    
-
-         // if ADD_BTN isPRESS
-        add_btn = document.getElementsByClassName("add_btn")
-     
-        for(let b = 0 ; b < name_array_len ; b++){
-            add_btn[b].addEventListener("click", function(){
-                console.log(this.value)
-                add_function(b)
-                add_button_pressed(b)
-
-            })
-        }
-
-
-        // if VIEW_BTN isPRESS
-        view_btn = document.getElementsByClassName("view_btn")
-
-        for(let c = 0 ; c < name_array_len ; c++){
-            view_btn[c].addEventListener("click", function(){
-                console.log(this.value)
-                view_function(c)
-            })
-        }
-
-
-        // FOR MOBILE INTERACTION
-
-        name_btn = document.getElementsByClassName("name_btn")
-        for(let d = 0 ; d < name_array.length ; d ++){
-            name_btn[d].addEventListener("click", function(){
-                console.log(this.value)
-                add_function(d)
-            })
-        }
-
 })
-
 
 
 
@@ -331,8 +274,6 @@ async function read_view_table(index) {
     let { data, error } = await client
     .from('view_table')
     .select('*').eq('fk_id', id_array[index])
-    .order("created_at", { ascending: false }); // latest - old
-
 
 
 
@@ -367,16 +308,18 @@ function display_name_contribution(index){
 
 // -- date formatter
 function format_date(isoString){
-   const date = new Date(isoString);
+    // convert to Date object
+    const date = new Date(isoString);
 
-    // extract parts as-is (ignore local TZ shift)
-    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-    const day = String(date.getUTCDate()).padStart(2, "0");
-    const hours = String(date.getUTCHours()).padStart(2, "0");
-    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    // extract parts
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // months start at 0
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
 
     // format mm/dd. hh:mm
-    return `${month}/${day}. ${hours}:${minutes}`;
+    const formatted = `${month}/${day}. ${hours}:${minutes}`;
+    return formatted;
 }
 
 // -- to open and close
