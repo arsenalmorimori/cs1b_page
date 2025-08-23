@@ -21,8 +21,10 @@ let name_array_len = 0;
 const popup_container = document.getElementsByClassName("popup_container")[0]
 const add_box = document.getElementsByClassName("add_box")[0]
 const view_box = document.getElementsByClassName("view_box")[0]
+const spend_box = document.getElementsByClassName("spend_box")[0]
 const close_add = document.getElementsByClassName("close")[0]
 const close_view = document.getElementsByClassName("close")[1]
+const spend_close = document.getElementsByClassName("spend_close")[0]
         
 
 
@@ -86,6 +88,16 @@ async function read(){
             })
         }
 
+
+        // if SPEND_BTN isPRESS
+        spend_btn = document.getElementsByClassName("spend_btn")[0]
+
+        spend_btn.addEventListener("click", function(){
+            // console.log("asasadaf")
+            // view_function(c)
+            spend_function()
+        })
+       
 
         // FOR MOBILE INTERACTION
 
@@ -317,10 +329,6 @@ async function view_function(index) {
     read_view_table(index)
 } 
 
-
-
-
-
 // GET and display view_table
 view_list = document.getElementById("view_list")
 async function read_view_table(index) {
@@ -392,6 +400,88 @@ close_view.addEventListener("click", function(){
 
 
  
+
+
+
+
+
+// SPEND FUNCTION POPUP
+async function spend_function() {
+    openSpendBox()
+}
+
+spend_add = document.getElementsByClassName("spend_add")[0]
+spend_amount = document.getElementsByClassName("spend_amount")[0]
+spend_description = document.getElementsByClassName("spend_description")[0]
+spend_add.addEventListener("click", function(){
+
+    if(spend_amount.value == ""){
+        alert("amount is empty")
+        return
+    }
+    if(spend_description.value == ""){
+        alert("description is empty")
+        return
+    }
+
+    let now = new Date();
+
+    // Force to PH time using toLocaleString
+    let options = { timeZone: "Asia/Manila" };
+
+    // Extract month, day, hour
+    let month = now.toLocaleString("en-US", { ...options, month: "2-digit" });
+    let date  = now.toLocaleString("en-US", { ...options, day: "2-digit" });
+    let hour  = now.toLocaleString("en-US", { ...options, hour: "2-digit", hour12: false });
+    let minute = now.toLocaleString("en-US", { ...options, minute: "2-digit" });
+    let second = now.toLocaleString("en-US", { ...options, second: "2-digit" });
+
+
+    let month_label = month + "/" + date
+    let time_label = hour + ":" + minute
+    uploadToDiscord(month_label, time_label)
+    // console.log(image_url)
+})
+
+
+async function add_expense_table(desc,amount,image_link) {
+    
+    const { data, error } = await client
+    .from('expenses_table')
+    .insert([
+        {   amount: amount ,
+            description: desc,
+             image_link: image_link },
+    ])
+    .select()
+
+    if(error){
+        console.log(error)
+        alert("error")
+    }else{
+        console.log(data)
+        alert("spend successful")
+        location.reload()
+    }
+}
+
+// -- display name only
+// name_title = document.getElementsByClassName("title")[0]
+// function displayName(index){
+//     name_title.innerHTML = name_array[index]
+// }
+
+// -- open and close
+function openSpendBox(){
+    popup_container.classList.toggle("show");
+    spend_box.classList.toggle("show");
+}
+
+spend_close.addEventListener("click", function(){
+    popup_container.classList.toggle("show");
+    spend_box.classList.toggle("show");
+})
+
 
 
 

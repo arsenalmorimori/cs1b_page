@@ -13,7 +13,7 @@
 
 
             <div class="header">
-
+                <a href="expenses.html">Expenses</a>
             </div>
 
             <div class="funds_container">
@@ -24,6 +24,7 @@
                 </div>
             </div>
 
+                    <button class="spend_btn">Spend</button>
 
             <div class="popup_container">
                 <div class="wrapper">
@@ -46,9 +47,26 @@
                         <button class="close">Close</button>
                     </div>
                     
+                    
+                    <div class="spend_box">
+                        <div>
+                            <h3>Total ClassFunds</h3>
+                            <h3 class="total_classfunds">100</h3>
+                        </div>
+                        <div>
+                            <input type="number" placeholder="Amount..." class="spend_amount">
+                            <textarea placeholder="Decription..." class="spend_description"></textarea>
+                            <input type="file" accept="image/*" class="spend_image" onchange="previewImage(event)">
+                            <img id="output" width="200" />
+                        </div>
+                        <div>
+                            <button class="spend_add">Spend</button>
+                            <button class="spend_close">Close</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-
 
 
         </div>
@@ -57,6 +75,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="env.js"></script>
     <script src="function/funds.js"></script>
+    <script src="function/image_compressor.js"></script>
     
 </body>
 </html>
