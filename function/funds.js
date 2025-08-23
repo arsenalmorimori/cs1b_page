@@ -13,6 +13,7 @@ search_box = document.getElementsByClassName("search_box")[0]
 // DATABASE STORAGE
 const id_array = []
 const name_array = []
+let total_classfunds = 0;
 const total_contribution_array = []
 let name_array_len = 0;
 
@@ -46,6 +47,7 @@ async function read(){
             name_array.push(data[a].name)
             name_array_len = data.length
             total_contribution_array.push(data[a].total_contribution)
+            total_classfunds += total_contribution_array[a]
             list.innerHTML += `
             <div class="column_wrapper">
                 <button class="name_btn" value=${a}>
@@ -53,6 +55,7 @@ async function read(){
                         <span>${a}</span>
                         <span>${name_array[a]}</span>
                         <span> ${parseFloat(total_contribution_array[a]).toFixed(2)}</span>
+                        
                     </div>    
                 </button>
 
@@ -64,6 +67,13 @@ async function read(){
 
         }   
 
+        // PUT TOTAL CLASSFUND
+        
+
+        total_classfunds_text = document.getElementsByClassName("total_classfunds_text")[0]
+        console.log(total_classfunds)
+        console.log(expenses_total)
+        total_classfunds_text.innerHTML = `<h2 class="total_classfunds_text">${parseFloat(total_classfunds).toFixed(2) - parseFloat(expenses_total).toFixed(2)}</h2>`
 
         // if ADD_BTN isPRESS
         add_btn = document.getElementsByClassName("add_btn")
@@ -90,8 +100,15 @@ async function read(){
 
 
         // if SPEND_BTN isPRESS
+        spend_btn2 = document.getElementsByClassName("spend_btn2")[0]
         spend_btn = document.getElementsByClassName("spend_btn")[0]
 
+        spend_btn2.addEventListener("click", function(){
+            // console.log("asasadaf")
+            // view_function(c)
+            spend_function()
+        })
+       
         spend_btn.addEventListener("click", function(){
             // console.log("asasadaf")
             // view_function(c)
@@ -168,7 +185,7 @@ search_box.addEventListener("keyup", function search(){
 }
 
     if(isEmpty){
-        list.innerHTML += `<p>empty</p>`
+        list.innerHTML += `<p class="empty">empty</p>`
     }
 
 
@@ -439,7 +456,7 @@ spend_add.addEventListener("click", function(){
 
     let month_label = month + "/" + date
     let time_label = hour + ":" + minute
-    uploadToDiscord(month_label, time_label)
+    uploadToDiscord(1,month_label, time_label)
     // console.log(image_url)
 })
 
@@ -465,12 +482,6 @@ async function add_expense_table(desc,amount,image_link) {
     }
 }
 
-// -- display name only
-// name_title = document.getElementsByClassName("title")[0]
-// function displayName(index){
-//     name_title.innerHTML = name_array[index]
-// }
-
 // -- open and close
 function openSpendBox(){
     popup_container.classList.toggle("show");
@@ -488,6 +499,39 @@ spend_close.addEventListener("click", function(){
 
 
 
+
+
+
+
+
+
+
+// GET EXPENSES
+let expenses_total = 0;
+async function read_expenses_here() {
+ 
+    let { data, error } = await client
+    .from('expenses_table')
+    .select('*')
+    .order("created_at", { ascending: false }); // latest - old
+
+      if(error){
+        alert(error)
+    }else{
+        data.forEach(element => {
+            expenses_total += element.amount
+        });
+
+           
+    }
+
+   
+}
+
+
+
+
+read_expenses_here()
 // Call READ or MAIN Method
 read()
 

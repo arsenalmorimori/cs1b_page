@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link rel="stylesheet" href="style.css"/>
     <title>Funds</title>
 </head>
@@ -13,24 +14,58 @@
 
 
             <div class="header">
-                <a href="expenses.html">Expenses</a>
+                <img src="asset/img/logo.png"/>
+                <!-- <a href="expenses.html">Expenses</a> -->
+                 <div>
+                    <a class="nav " href="index.html">Dashboard</a>
+                    <a class="nav active">Funds</a>
+                    <a class="nav " href="expenses.html">Expenses</a>
+                 </div>
             </div>
+
 
             <div class="funds_container">
                 <div class="wrapper">
-                    <input class="search_box" placeholder="search" type="text"/>
+                    <div class="top">
+                        <input class="search_box" placeholder="search" type="text"/>
+                        <div></div>    
+                        <div class="total_classfunds">
+                            <h1>Total :</h1>
+                            <h2 class="total_classfunds_text">----.--</h2>
+                        </div>
+                    </div>
+
+
+                    <div class="funds_table_label">
+                        <div>
+                            <span>No.</span>
+                            <span>Name</span>
+                            <span>Contribution</span>
+                        </div>
+                    </div>
                     <ol id="list">
                     </ol>
                 </div>
             </div>
 
-                    <button class="spend_btn">Spend</button>
+            
+
+            <button class="spend_btn">Spend</button>
+
+            <div class="mobile_nav">
+                <div class="wrapper">
+                    <a  href="index.html"><i class="  fa-solid fa-house"></i></a>
+                    <a ><i class=" active fa-solid fa-money-bill"></i></a>
+                    <a  href="expenses.html" ><i class="fa-solid fa-burger"></i></a>
+                    <button class="spend_btn2">-</button>
+                </div>
+            </div>
 
             <div class="popup_container">
                 <div class="wrapper">
 
                     <div class="add_box">
-                        <h3 class="title">Midoriya, Izuku A.</h3>
+                        <h3 class="title">-------, ------ -.</h3>
                         <input type="number" placeholder="Amount..." class="amount">
                         <textarea placeholder="Decription..." class="description"></textarea>
                         <button class="add">Add</button>
@@ -39,8 +74,8 @@
                     
                     <div class="view_box">
                         <div class="info">
-                            <h3 class="view_name">Midoriya, Izuku A.</h3>
-                            <h2 class="view_amount">10.10</h3>
+                            <h3 class="view_name">-------, ------- ---</h3>
+                            <h2 class="view_amount">---.--</h3>
                         </div>
                         <ol id="view_list">
                         </ol>
@@ -50,8 +85,8 @@
                     
                     <div class="spend_box">
                         <div>
-                            <h3>Total ClassFunds</h3>
-                            <h3 class="total_classfunds">100</h3>
+                            <!-- <h3>Total ClassFunds</h3>
+                            <h3 class="total_classfunds">---.--</h3> -->
                         </div>
                         <div>
                             <input type="number" placeholder="Amount..." class="spend_amount">
@@ -75,6 +110,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="env.js"></script>
     <script src="function/funds.js"></script>
+    <!-- <script src="function/expenses_list.js"></script> -->
     <script src="function/image_compressor.js"></script>
     
 </body>

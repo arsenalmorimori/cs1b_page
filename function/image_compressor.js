@@ -77,18 +77,51 @@ function dataURLtoBlob(dataUrl) {
 
 
 // ⬆️ Upload compressed image to Discord
-function uploadToDiscord(month, datenow) {
-  if (!compressedBlob) {
-    alert("Please select an image first!");
-    return;
+   let storedUrl;
+function uploadToDiscord(page, month, datenow) {
+     if(page == 1){
+              
+          if (!compressedBlob) {
+            alert("Please select an image first!");
+            return;
+          }
+        }else if(page == 3){
+            if (!compressedBlob) {
+              storedUrl = null;
+            }   
+        }
+
+  let webhookURL;
+
+  if(page == 1){
+     webhookURL = receipt_webhook; // <-- replace this
+  }else if(page == 3){
+    webhookURL = announece_webhook; // <-- replace this
   }
-
-  const webhookURL = receipt_webhook; // <-- replace this
-
   const formData = new FormData();
-  formData.append("file", compressedBlob, "compressed.jpg");
-  let label = "📷 receipt upload : "+ month +" , "+ datenow
-  formData.append("payload_json", JSON.stringify({ content: label}));
+
+  
+  
+  
+  if(page == 1){
+      formData.append("file", compressedBlob, "compressed.jpg");
+      let label = "📷 receipt upload : "+ month +" , "+ datenow
+        
+    formData.append("payload_json", JSON.stringify({ content: label}));
+
+  }else if(page == 3){
+        if(!compressedBlob){
+          add_announcement_table(new_description.value, new_title.value, storedUrl)
+          return;
+        }else{
+            formData.append("file", compressedBlob, "compressed.jpg");
+            let label = "📷 announcemetn upload : "+ month +" , "+ datenow
+              
+          formData.append("payload_json", JSON.stringify({ content: label}));
+
+        }
+
+  }
 
   fetch(webhookURL, {
     method: "POST",
@@ -104,7 +137,11 @@ function uploadToDiscord(month, datenow) {
       let storedUrl = fileUrl;  
     //   alert("DONE!");
     
-      add_expense_table(spend_description.value, spend_amount.value, storedUrl)
+      if(page == 1){
+        add_expense_table(spend_description.value, spend_amount.value, storedUrl)
+      }else if(page == 3){
+        add_announcement_table(new_description.value, new_title.value, storedUrl)
+      }
 
 
       // you can also send `storedUrl` to your DB, localStorage, etc.
