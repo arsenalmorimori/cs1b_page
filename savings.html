@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link rel="stylesheet" href="style.css"/>
     <title>Funds</title>
 </head>
@@ -13,23 +14,55 @@
 
 
             <div class="header">
-
+                <img src="asset/img/logo.png"/>
+                <!-- <a href="expenses.html">Expenses</a> -->
+                 <div>
+                    <a class="nav " href="index.html">Dashboard</a>
+                    <a class="nav" href="funds.html">Funds</a>
+                    <a class="nav " href="expenses.html">Expenses</a>
+                    <a class="nav active">Savings</a>
+                 </div>
             </div>
+
 
             <div class="funds_container">
                 <div class="wrapper">
-                    <input class="search_box" placeholder="search" type="text"/>
+                    <div class="top">
+                        <input class="search_box" placeholder="search" type="text"/>
+                        <div></div>    
+                        <div class="total_classfunds">
+                           
+                        </div>
+                    </div>
+
+
+                    <div class="funds_table_label">
+                        <div>
+                            <span>No.</span>
+                            <span>Name</span>
+                            <span>Savings</span>
+                        </div>
+                    </div>
                     <ol id="list">
                     </ol>
                 </div>
             </div>
 
+            
+
+            <div class="mobile_nav">
+                <div class="wrapper">
+                    <a  href="index.html"><i class="  fa-solid fa-house"></i></a>
+                    <a href="funds.html"><i class="  fa-solid fa-money-bill"></i></a>
+                    <a  href="expenses.html" ><i class="fa-solid fa-burger"></i></a>
+                    <a ><i class="active fa-solid fa-building-columns"></i></i></a>
+                </div>
+            </div>
 
             <div class="popup_container">
                 <div class="wrapper">
 
                     <div class="add_box">
-                        <h3 class="title">Midoriya, Izuku A.</h3>
                         <input type="number" placeholder="Amount..." class="amount">
                         <textarea placeholder="Decription..." class="description"></textarea>
                         <button class="add">Add</button>
@@ -38,17 +71,33 @@
                     
                     <div class="view_box">
                         <div class="info">
-                            <h3 class="view_name">Midoriya, Izuku A.</h3>
-                            <h2 class="view_amount">10.10</h3>
+                            <h3 class="view_name">-------, ------- ---</h3>
+                            <h2 class="view_amount">---.--</h3>
                         </div>
                         <ol id="view_list">
                         </ol>
                         <button class="close">Close</button>
                     </div>
                     
+                    
+                    <div class="spend_box">
+                        <div>
+                        </div>
+                        <div>
+                            <h3 class="title">-------, ------ -.</h3>
+                            <input type="number" placeholder="Amount..." class="spend_amount">
+                            <textarea placeholder="Decription..." class="spend_description"></textarea>
+                            <input type="file" accept="image/*" class="spend_image" onchange="previewImage(event)">
+                            <img id="output" width="200" />
+                        </div>
+                        <div>
+                            <button class="spend_add">Spend</button>
+                            <button class="spend_close">Close</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-
 
 
         </div>
@@ -56,7 +105,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="env.js"></script>
-    <script src="function/funds.js"></script>
+    <script src="function/savings.js"></script>
+    <!-- <script src="function/expenses_list.js"></script> -->
+    <script src="function/image_compressor.js"></script>
     
 </body>
 </html>

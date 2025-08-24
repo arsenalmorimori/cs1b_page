@@ -1,5 +1,8 @@
 console.log("connected")
 
+let getId;
+let getAmount;
+
 const supabaseUrl = url
 const supabaseKey = key
 const client = supabase.createClient(supabaseUrl, supabaseKey)
@@ -13,6 +16,7 @@ search_box = document.getElementsByClassName("search_box")[0]
 // DATABASE STORAGE
 const id_array = []
 const name_array = []
+let total_classfunds = 0;
 const total_contribution_array = []
 let name_array_len = 0;
 
@@ -21,8 +25,10 @@ let name_array_len = 0;
 const popup_container = document.getElementsByClassName("popup_container")[0]
 const add_box = document.getElementsByClassName("add_box")[0]
 const view_box = document.getElementsByClassName("view_box")[0]
+const spend_box = document.getElementsByClassName("spend_box")[0]
 const close_add = document.getElementsByClassName("close")[0]
 const close_view = document.getElementsByClassName("close")[1]
+const spend_close = document.getElementsByClassName("spend_close")[0]
         
 
 
@@ -30,8 +36,9 @@ const close_view = document.getElementsByClassName("close")[1]
 async function read(){
     
     let { data, error } = await client
-    .from("funds_table")
+    .from("savings_table")
     .select("*")
+    .order("name", { ascending: true }); // ascending = A → Z
 
     if(error){
         alert(error)
@@ -42,7 +49,8 @@ async function read(){
             id_array.push(data[a].id)
             name_array.push(data[a].name)
             name_array_len = data.length
-            total_contribution_array.push(data[a].total_contribution)
+            total_contribution_array.push(data[a].total_savings)
+            total_classfunds += total_contribution_array[a]
             list.innerHTML += `
             <div class="column_wrapper">
                 <button class="name_btn" value=${a}>
@@ -50,26 +58,26 @@ async function read(){
                         <span>${a}</span>
                         <span>${name_array[a]}</span>
                         <span> ${parseFloat(total_contribution_array[a]).toFixed(2)}</span>
+                        
                     </div>    
                 </button>
 
                 <div>
-                    <button class="add_btn"  value=${a}>Add</button>
+                    <button class="spend_saving_btn"  value=${a}>Spend</button>
                     <button class="view_btn" value=${a}>View</button>
                 </div>
             </div>`
 
         }   
 
-
-        // if ADD_BTN isPRESS
-        add_btn = document.getElementsByClassName("add_btn")
+        // if SPEND_SAVINGS_BTN isPRESS
+        spend_saving_btn = document.getElementsByClassName("spend_saving_btn")
      
         for(let b = 0 ; b < name_array_len ; b++){
-            add_btn[b].addEventListener("click", function(){
-                console.log(this.value)
-                add_function(b)
-                add_button_pressed(b)
+            spend_saving_btn[b].addEventListener("click", function(){
+                getId = id_array[b]
+                getAmount = total_contribution_array[b]
+                spend_function(b)
 
             })
         }
@@ -86,13 +94,15 @@ async function read(){
         }
 
 
+
         // FOR MOBILE INTERACTION
 
         name_btn = document.getElementsByClassName("name_btn")
         for(let d = 0 ; d < name_array.length ; d ++){
             name_btn[d].addEventListener("click", function(){
-                console.log(this.value)
-                add_function(d)
+                getId = id_array[d]
+                getAmount = total_contribution_array[d]
+                spend_function(d)
             })
         }
 
@@ -115,8 +125,8 @@ search_box.addEventListener("keyup", function search(){
     console.log(search_box.value)
     let isEmpty = true;
     list.innerHTML = ``
-    for(let aa = 0 ; aa < name_array.length ; aa++){
-        // if(name_array[a].toLowerCase().includes(search_box.value.toLowerCase())){
+    for(let a = 0 ; a < name_array.length ; a++){
+        if(name_array[a].toLowerCase().includes(search_box.value.toLowerCase())){
             list.innerHTML += `
              <div class="column_wrapper">
                 <button class="name_btn" value=${a}>
@@ -128,19 +138,74 @@ search_box.addEventListener("keyup", function search(){
                 </button>
 
                 <div>
-                    <button class="add_btn" value=${a}>Add</button>
+                    <button class="spend_saving_btn"  value=${a}>Spend</button>
                     <button class="view_btn" value=${a}>View</button>
                 </div>
             </div>`
             isEmpty = false;
-        // }
-    }
+        
+        }else{
+            list.innerHTML += `
+                <div class="column_wrapper_hide">
+                    <button class="name_btn" value=${a}>
+                        <div>
+                            <span>${a}</span>
+                            <span>${name_array[a]}</span>
+                            <span> ${parseFloat(total_contribution_array[a]).toFixed(2)}</span>
+                        </div>    
+                    </button>
+
+                    <div>
+                    <button class="spend_saving_btn"  value=${a}>Spend</button>
+                        <button class="view_btn" value=${a}>View</button>
+                    </div>
+                </div>` 
+        }
+
+}
 
     if(isEmpty){
-        list.innerHTML += `<p>empty</p>`
+        list.innerHTML += `<p class="empty">empty</p>`
     }
 
+
+    
+
+         // if SPEND_SAVINGS_BTN isPRESS
+        spend_saving_btn = document.getElementsByClassName("spend_saving_btn")
+     
+        for(let b = 0 ; b < name_array_len ; b++){
+            spend_saving_btn[b].addEventListener("click", function(){
+                console.log(this.value)
+                spend_function(b)
+
+            })
+        }
+
+
+        // if VIEW_BTN isPRESS
+        view_btn = document.getElementsByClassName("view_btn")
+
+        for(let c = 0 ; c < name_array_len ; c++){
+            view_btn[c].addEventListener("click", function(){
+                console.log(this.value)
+                view_function(c)
+            })
+        }
+
+
+        // FOR MOBILE INTERACTION
+
+        name_btn = document.getElementsByClassName("name_btn")
+        for(let d = 0 ; d < name_array.length ; d ++){
+            name_btn[d].addEventListener("click", function(){
+                spend_function(d)
+                
+            })
+        }
+
 })
+
 
 
 
@@ -151,101 +216,11 @@ search_box.addEventListener("keyup", function search(){
 
 // ADD POPUP FUNCTIONS
 
-add = document.getElementsByClassName("add")[0]
-amount = document.getElementsByClassName("amount")[0]
-description = document.getElementsByClassName("description")[0]
-
-async function add_function(index){
-    openAddBox()
-    displayName(index)
-
-
-    add.addEventListener("click", function(){
-    if(amount.value == ""){
-            alert("empty amount input")
-            return;
-        }
-        
-        if(amount.value < 0){
-            alert("cannot be zero to negative")
-            return;
-        }
-        if(description.value == ""){
-            alert("empty decription input")
-            return;
-        }
-        
-        // add_contribution()
-        console.log("--------------------------")
-        console.log(id_array[index])
-        console.log(name_array[index])
-        console.log(total_contribution_array[index])
-        console.log("--------------------------")
-
-        add_contribution(index,amount.value,description.value)
-    }) 
-
-}
-
-// -- INSERT to DB
-async function add_contribution(index, amount_input,description_input) {
-    const { data, error } = await client
-    .from('view_table')
-    .insert([
-      { fk_id: id_array[index], 
-          isAdd: 'true',
-          amount: amount_input,
-          description : description_input},
-    ])
-    .select()
-
-    if(error){
-      console.log(error)
-    }else{
-    //   console.log("added") 
-        let updated_contribution =
-        parseFloat(total_contribution_array[index]) + parseFloat(amount.value)
-        update_total_contribution(index, updated_contribution)
-    }
-}
-
-// -- UPDATE DB
-async function update_total_contribution(index, amount_input) {
-    const { data, error } = await client
-    .from('funds_table')
-    .update({ total_contribution: amount_input })
-    .eq('id', id_array[index])
-    .select()
-
-    if(error){
-      console.log(error)
-    }else{
-    //   console.log("updated")
-    alert("Done")
-    location.reload() 
-    }
-}
-
 // -- display name only
 name_title = document.getElementsByClassName("title")[0]
 function displayName(index){
     name_title.innerHTML = name_array[index]
 }
-
-// -- open and close
-function openAddBox(){
-    popup_container.classList.toggle("show");
-    add_box.classList.toggle("show");
-}
-
-close_add.addEventListener("click", function(){
-    popup_container.classList.toggle("show");
-    add_box.classList.toggle("show");
-})
-
-
-
-
 
 
 
@@ -260,10 +235,6 @@ async function view_function(index) {
     read_view_table(index)
 } 
 
-
-
-
-
 // GET and display view_table
 view_list = document.getElementById("view_list")
 async function read_view_table(index) {
@@ -272,8 +243,10 @@ async function read_view_table(index) {
     
     
     let { data, error } = await client
-    .from('view_table')
+    .from('spend_savings_table')
     .select('*').eq('fk_id', id_array[index])
+    .order("created_at", { ascending: false }); // latest - old
+
 
 
 
@@ -283,9 +256,11 @@ async function read_view_table(index) {
         console.log(data)
         data.forEach(element => {
             view_list.innerHTML += `
-            <div>
+            <div class="div_2">
                 <span>${parseFloat(element.amount).toFixed(2)}</span>
                 <span>${element.description}</span>
+                <a href=${element.image_link} target="_blank">View</a>
+
                 <span>
                 
                 ${format_date(element.created_at)}
@@ -296,6 +271,9 @@ async function read_view_table(index) {
     }
     
 } 
+
+
+
 
 // -- display name and total_contribution only
 view_name = document.getElementsByClassName("view_name")[0]
@@ -308,18 +286,16 @@ function display_name_contribution(index){
 
 // -- date formatter
 function format_date(isoString){
-    // convert to Date object
-    const date = new Date(isoString);
+   const date = new Date(isoString);
 
-    // extract parts
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // months start at 0
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
+    // extract parts as-is (ignore local TZ shift)
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
 
     // format mm/dd. hh:mm
-    const formatted = `${month}/${day}. ${hours}:${minutes}`;
-    return formatted;
+    return `${month}/${day}. ${hours}:${minutes}`;
 }
 
 // -- to open and close
@@ -341,6 +317,151 @@ close_view.addEventListener("click", function(){
 
 
 
+// SPEND FUNCTION POPUP
+async function spend_function(index) {
+    displayName(index)
+    openSpendBox()
+}
+
+spend_add = document.getElementsByClassName("spend_add")[0]
+spend_amount = document.getElementsByClassName("spend_amount")[0]
+spend_description = document.getElementsByClassName("spend_description")[0]
+spend_add.addEventListener("click", function(){
+
+    if(spend_amount.value == ""){
+        alert("amount is empty")
+        return
+    }
+    if(spend_description.value == ""){
+        alert("description is empty")
+        return
+    }
+
+    let now = new Date();
+
+    // Force to PH time using toLocaleString
+    let options = { timeZone: "Asia/Manila" };
+
+    // Extract month, day, hour
+    let month = now.toLocaleString("en-US", { ...options, month: "2-digit" });
+    let date  = now.toLocaleString("en-US", { ...options, day: "2-digit" });
+    let hour  = now.toLocaleString("en-US", { ...options, hour: "2-digit", hour12: false });
+    let minute = now.toLocaleString("en-US", { ...options, minute: "2-digit" });
+    let second = now.toLocaleString("en-US", { ...options, second: "2-digit" });
+
+
+    let month_label = month + "/" + date
+    let time_label = hour + ":" + minute
+    uploadToDiscord(2,month_label, time_label,getId)
+    // console.log(image_url)
+})
+
+
+async function savings_expense_table(id,desc,amount,image_link) {
+    
+    const { data, error } = await client
+    .from('spend_savings_table')
+    .insert([
+        {   amount: amount ,
+            fk_id: id,
+            description: desc,
+             image_link: image_link },
+    ])
+    .select()
+
+    if(error){
+        console.log(error)
+        alert("error")
+    }else{
+        console.log(data)
+        alert("cash-out successful")
+
+        update_savings_amount(amount, id, getAmount)
+    }
+}
+
+// -- open and close
+function openSpendBox(){
+    
+    popup_container.classList.toggle("show");
+    spend_box.classList.toggle("show");
+}
+
+spend_close.addEventListener("click", function(){
+    popup_container.classList.toggle("show");
+    spend_box.classList.toggle("show");
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// GET EXPENSES
+let expenses_total = 0;
+async function read_expenses_here() {
+ 
+    let { data, error } = await client
+    .from('expenses_table')
+    .select('*')
+    .order("created_at", { ascending: false }); // latest - old
+
+      if(error){
+        alert(error)
+    }else{
+        data.forEach(element => {
+            expenses_total += element.amount
+        });
+
+           
+    }
+
+   
+}
+
+
+
+
+
+
+
+// UPDATE SAVINGS AMOUNT 
+async function update_savings_amount(amount,id, original_amount) {
+    
+
+
+    const { data, error } = await client
+    .from('savings_table')
+    .update({ total_savings: (original_amount - amount) })
+    .eq('id', id)
+    .select()
+
+    if(error){
+        alert("error")
+        console.log(error)
+    }else{
+        alert("updated")
+        
+        location.reload()
+    }
+
+}
+
+
+
+
+
+
+
+read_expenses_here()
 // Call READ or MAIN Method
 read()
 

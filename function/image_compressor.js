@@ -78,8 +78,14 @@ function dataURLtoBlob(dataUrl) {
 
 // ⬆️ Upload compressed image to Discord
    let storedUrl;
-function uploadToDiscord(page, month, datenow) {
+function uploadToDiscord(page, month, datenow,id) {
      if(page == 1){
+              
+          if (!compressedBlob) {
+            alert("Please select an image first!");
+            return;
+          }
+        }else if(page == 2){
               
           if (!compressedBlob) {
             alert("Please select an image first!");
@@ -95,6 +101,8 @@ function uploadToDiscord(page, month, datenow) {
 
   if(page == 1){
      webhookURL = receipt_webhook; // <-- replace this
+  }else if(page == 2){
+    webhookURL = savings_webhook; // <-- replace this
   }else if(page == 3){
     webhookURL = announece_webhook; // <-- replace this
   }
@@ -106,6 +114,12 @@ function uploadToDiscord(page, month, datenow) {
   if(page == 1){
       formData.append("file", compressedBlob, "compressed.jpg");
       let label = "📷 receipt upload : "+ month +" , "+ datenow
+        
+    formData.append("payload_json", JSON.stringify({ content: label}));
+
+  }else if(page == 2){
+      formData.append("file", compressedBlob, "compressed.jpg");
+      let label = "📷 savings cashout upload : "+ month +" , "+ datenow
         
     formData.append("payload_json", JSON.stringify({ content: label}));
 
@@ -139,6 +153,8 @@ function uploadToDiscord(page, month, datenow) {
     
       if(page == 1){
         add_expense_table(spend_description.value, spend_amount.value, storedUrl)
+      }else if(page == 2){
+        savings_expense_table(id,spend_description.value,spend_amount.value, storedUrl)
       }else if(page == 3){
         add_announcement_table(new_description.value, new_title.value, storedUrl)
       }

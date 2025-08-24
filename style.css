@@ -156,7 +156,7 @@ margin-left: 2rem;
     grid-template-columns: 2fr 1fr;
     background-color: var(--purewhite);
     transition: 0.5s;
-    padding: 0.3rem 0;
+    padding: 0.01rem 0;
     cursor: pointer;
 }
 .funds_container .wrapper .column_wrapper:hover{
@@ -166,9 +166,12 @@ margin-left: 2rem;
 }
 .funds_container .wrapper .column_wrapper div{
     cursor: pointer;
-
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+}
+
+.funds_container .wrapper .column_wrapper div:nth-child(1) span{
+    align-self: center;
 }
 
 .funds_container .wrapper ol .add_btn{
@@ -177,6 +180,13 @@ margin-left: 2rem;
     margin-left: 2rem;
     margin-right: 2rem;
     color: var(--control_green);
+}
+.funds_container .wrapper ol .spend_saving_btn{
+    cursor: pointer;
+
+    margin-left: 2rem;
+    margin-right: 2rem;
+    color: var(--control_red);
 }
 
 .funds_container .wrapper ol .view_btn{
@@ -369,6 +379,20 @@ margin-left: 2rem;
 }
 
 
+.popup_container .wrapper .view_box ol .div_2{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 0.7fr;
+    margin-top: 0.2rem;
+    color: var(--black);
+}
+
+.popup_container .wrapper .view_box ol .div_2 a{
+    color: var(--primary);
+    text-align: center;
+}
+.popup_container .wrapper .view_box ol .div_2 span:nth-child(4){
+    color: var(--unhighlight_text);
+}
 
 
 
@@ -395,7 +419,6 @@ margin-left: 2rem;
 }
 
 /* SPEND COINTAINER */
-
 .popup_container .wrapper .spend_box{
     display: none;
     transition: 0.5s;
@@ -458,6 +481,12 @@ margin-left: 2rem;
     border-radius: 0.5rem;
     margin-top: 0.7rem;
 }
+.popup_container .wrapper .spend_box .title{
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--unhighlight_text_hover);
+}
+
 
 
 
@@ -674,6 +703,11 @@ margin-left: 2rem;
   height: 100dvh;
   background-color: var(--purewhite);
   opacity: 0.80;
+}
+
+
+.announcement_wrapper .delete_announcement_btn{
+  color: var(--control_red);
 }
 
 

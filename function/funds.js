@@ -456,7 +456,7 @@ spend_add.addEventListener("click", function(){
 
     let month_label = month + "/" + date
     let time_label = hour + ":" + minute
-    uploadToDiscord(1,month_label, time_label)
+    uploadToDiscord(1,month_label, time_label,null)
     // console.log(image_url)
 })
 

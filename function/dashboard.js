@@ -2,6 +2,7 @@ const supabaseUrl = url
 const supabaseKey = key
 const client = supabase.createClient(supabaseUrl, supabaseKey)
 
+let announcement_len = 0;
 
 const new_box = document.getElementsByClassName("new_box")[0]
 const new_close = document.getElementsByClassName("new_close")[0]
@@ -20,6 +21,7 @@ async function read_announcement() {
         console.log(data)
         new_list.innerHTML = ``
         data.forEach(element => {
+            announcement_len ++
             if(element.image_link == null){
                 new_list.innerHTML += `
                             <div class="announcement_wrapper">
@@ -27,6 +29,8 @@ async function read_announcement() {
                                     <h1>${element.title}</h1>
                                     <h2> ${format_date(element.created_at)}</h2>
                                     <h3>${element.description}</h3>
+                                    <button class="delete_announcement_btn" value=${element.id}>delete</button>
+
                                 </div>
                                 <div>
                                 </div>
@@ -41,6 +45,7 @@ async function read_announcement() {
                                     <h1>${element.title}</h1>
                                     <h2> ${format_date(element.created_at)}</h2>
                                     <h3>${element.description}</h3>
+                                    <button class="delete_announcement_btn" value=${element.id}>delete</button>
                                 </div>
                                 <div>
                                     <div class="preview_bg"></div>
@@ -49,6 +54,15 @@ async function read_announcement() {
                             </div>
                 `
             }
+
+
+            delete_announcement_btn = document.getElementsByClassName("delete_announcement_btn")
+            for(let a = 0 ;a < announcement_len ; a++){
+                delete_announcement_btn[a].addEventListener("click", function(){
+                    delete_announcement(this.value)
+                })
+            }
+
         });
 
             
@@ -122,7 +136,7 @@ new_add.addEventListener("click", function(){
 
     let month_label = month + "/" + date
     let time_label = hour + ":" + minute
-    uploadToDiscord(3,month_label, time_label)
+    uploadToDiscord(3,month_label, time_label,null)
 })
 
 
@@ -177,6 +191,21 @@ function format_date(isoString){
 
 
 
+// DELETE ANNOUNCEMENT
+async function delete_announcement(id) {
+    
+    const { error } = await client
+    .from('announcement_table')
+    .delete()
+    .eq('id', id)
 
+    if(error){
+        alert("error")
+        console.log(error)
+    }else{
+        alert("deleted")
+        location.reload()
+    }
+}
 
 read_announcement()
