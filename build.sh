@@ -1,5 +1,7 @@
 #!/bin/bash
-# build.sh
+set -e
+
+mkdir -p public
 
 sed -e "s|@@NEXT_PUBLIC_URL@@|$NEXT_PUBLIC_URL|g" \
     -e "s|@@NEXT_PUBLIC_KEY@@|$NEXT_PUBLIC_KEY|g" \
