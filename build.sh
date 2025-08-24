@@ -1,0 +1,9 @@
+#!/bin/bash
+# build.sh
+
+sed -e "s|@@NEXT_PUBLIC_URL@@|$NEXT_PUBLIC_URL|g" \
+    -e "s|@@NEXT_PUBLIC_KEY@@|$NEXT_PUBLIC_KEY|g" \
+    -e "s|@@NEXT_PUBLIC_RECEIPT_WEBHOOK@@|$NEXT_PUBLIC_RECEIPT_WEBHOOK|g" \
+    -e "s|@@NEXT_PUBLIC_ANNOUNCEMENT_WEBHOOK@@|$NEXT_PUBLIC_ANNOUNCEMENT_WEBHOOK|g" \
+    -e "s|@@NEXT_PUBLIC_SAVINGS_WEBHOOK@@|$NEXT_PUBLIC_SAVINGS_WEBHOOK|g" \
+    env.template.js > public/env.js
