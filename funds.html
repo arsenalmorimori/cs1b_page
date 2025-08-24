@@ -15,9 +15,8 @@
 
             <div class="header">
                 <img src="asset/img/logo.png"/>
-                <!-- <a href="expenses.html">Expenses</a> -->
                  <div>
-                    <a class="nav " href="index.html">Dashboard</a>
+                    <a class="nav " href="dashboard.html">Dashboard</a>
                     <a class="nav active">Funds</a>
                     <a class="nav " href="expenses.html">Expenses</a>
                     <a class="nav" href="savings.html">Savings</a>
@@ -55,10 +54,10 @@
 
             <div class="mobile_nav">
                 <div class="wrapper">
-                    <a  href="index.html"><i class="  fa-solid fa-house"></i></a>
+                    <a  href="dashboard.html"><i class="  fa-solid fa-house"></i></a>
                     <a ><i class=" active fa-solid fa-money-bill"></i></a>
                     <a  href="expenses.html" ><i class="fa-solid fa-burger"></i></a>
-                    <a  href="savings.html" ><i class="fa-solid fa-building-columns"></i></i></a>
+                    <a  href="savings.html" ><i class="fa-solid fa-building-columns"></i></a>
                     <button class="spend_btn2">-</button>
                 </div>
             </div>
@@ -77,7 +76,7 @@
                     <div class="view_box">
                         <div class="info">
                             <h3 class="view_name">-------, ------- ---</h3>
-                            <h2 class="view_amount">---.--</h3>
+                            <h2 class="view_amount">---.--</h2>
                         </div>
                         <ol id="view_list">
                         </ol>
@@ -87,12 +86,9 @@
                     
                     <div class="spend_box">
                         <div>
-                            <!-- <h3>Total ClassFunds</h3>
-                            <h3 class="total_classfunds">---.--</h3> -->
                         </div>
                         <div>
-                            <!-- <h3 class="title">-------, ------ -.</h3> -->
-                            <input type="number" placeholder="Amount..." class="spend_amount">
+                            <input type="number" placeholder="Amount..." class="spend_amount"/>
                             <textarea placeholder="Decription..." class="spend_description"></textarea>
                             <input type="file" accept="image/*" class="spend_image" onchange="previewImage(event)">
                             <img id="output" width="200" />

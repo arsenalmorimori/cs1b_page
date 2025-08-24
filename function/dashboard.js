@@ -49,7 +49,7 @@ async function read_announcement() {
                                 </div>
                                 <div>
                                     <div class="preview_bg"></div>
-                                    <img class="preview_receipt" src=${element.image_link}/>
+                                    <img class="preview_receipt" src=${element.image_link} alt="alt_image.jpg"/>
                                 </div>
                             </div>
                 `

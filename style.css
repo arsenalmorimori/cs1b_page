@@ -241,12 +241,15 @@ margin-left: 2rem;
     position: absolute;
     top: 0;
     left: 0;
-    display: none;
-    transition: 0.5s;
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 .popup_container.show{
     display: flex;
-    transition: 0.5s;
+    opacity: 1;
+    visibility:visible;
 
     
 }
