@@ -2,7 +2,6 @@
     font-family: "helvetica";
     src: url(asset/font/Helvetica.ttf);
 }
-
 html,body,input, a, p,h1,h2,h3,textarea,h4,h5,h6,button, ul,ol,li{
     font-family: "helvetica";
     font-size: 1rem;
@@ -14,7 +13,6 @@ html,body,input, a, p,h1,h2,h3,textarea,h4,h5,h6,button, ul,ol,li{
     padding:0;
     margin: 0;
     overflow: hidden;
-    /* background-color: var(--bg); */
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -24,6 +22,7 @@ input::-webkit-inner-spin-button {
 body{
     background-color: var(--bg);
 }
+
 .page_container{
     display: flex;
     justify-content: center;
@@ -1080,5 +1079,4 @@ margin-left: 2rem;
     --bg:#f3f3f3;
 
 }
-
 
