@@ -29,6 +29,9 @@ async function read_expenses() {
             `
         });
 
+        expenses_list.innerHTML += `<br></br><br></br>`
+
+
             
         preview_receipt = document.getElementsByClassName("preview_receipt")
         preview_bg = document.getElementsByClassName("preview_bg")

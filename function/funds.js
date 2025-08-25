@@ -66,6 +66,8 @@ async function read(){
             </div>`
 
         }   
+        list.innerHTML+= `<br></br><br></br>`
+
 
         // PUT TOTAL CLASSFUND
         
@@ -192,6 +194,9 @@ search_box.addEventListener("keyup", function search(){
         }
 
 }
+
+        list.innerHTML+= `<br></br><br></br>`
+
 
     if(isEmpty){
         list.innerHTML += `<p class="empty">empty</p>`

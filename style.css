@@ -118,7 +118,6 @@ textarea:focus{
     background-color: var(--primary);
     color: 3rem;
     color: var(--purewhite);
-    width: 10dvw;
     padding: 1rem 3rem;
     border-radius: 0.9rem;
 }
@@ -138,6 +137,12 @@ textarea:focus{
 }
 .login_container .wrapper .top{
     margin-top: 9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.login_container .wrapper .top img{
+    object-fit: contain;
 }
 .login_container .wrapper .bottom{
     display: flex;
@@ -151,6 +156,7 @@ textarea:focus{
 }
 .login_container .wrapper h1{
     font-size: 1.2rem;
+    text-align: center;
     color: var(--unhighlight_text);
 }
 
@@ -189,7 +195,6 @@ textarea:focus{
     flex-direction: column;
     align-items: center;
     transition: opacity 0.5s ease, visibility 0.5s ease;
-
 }
 
 
@@ -390,7 +395,7 @@ margin-left: 2rem;
         grid-template-columns: 1fr;
         background-color: var(--purewhite);
         cursor: pointer;
-        height: 2rem;
+        height: 2.5rem;
     }
     
     .funds_container .wrapper .column_wrapper div:nth-child(2){
@@ -899,6 +904,14 @@ margin-left: 2rem;
 }
 
 
+.expenses_list{
+    height: 75dvh;
+    padding-right: 0.3rem;
+    overflow-y: auto;
+    scrollbar-color: #88888813 #78676700; /* thumb | track */
+}
+
+
 
 
 
@@ -931,6 +944,12 @@ margin-left: 2rem;
     padding: 2rem 2rem;
     margin: 1rem 0;
 }
+@media (max-width:600px) {
+    .announcement_wrapper{
+    grid-template-columns: 1fr;
+}
+}
+
 
 .announcement_wrapper h1{
     color: var(--primary);
@@ -943,6 +962,7 @@ margin-left: 2rem;
 }
 .announcement_wrapper h3{
     color: var(--black);
+    margin-bottom: 1rem;
 }
 .preview_receipt{
     border-radius: 0.5rem;

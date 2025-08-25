@@ -70,6 +70,9 @@ async function read_announcement() {
 
         });
 
+        new_list.innerHTML+= `<br></br><br></br>`
+
+
             
         preview_receipt = document.getElementsByClassName("preview_receipt")
         preview_bg = document.getElementsByClassName("preview_bg")

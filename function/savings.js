@@ -69,6 +69,8 @@ async function read(){
             </div>`
 
         }   
+        list.innerHTML+= `<br></br><br></br>`
+
 
         // if SPEND_SAVINGS_BTN isPRESS
         spend_saving_btn = document.getElementsByClassName("spend_saving_btn")
@@ -175,6 +177,9 @@ search_box.addEventListener("keyup", function search(){
         }
 
 }
+
+        list.innerHTML+= `<br></br><br></br>`
+
 
     if(isEmpty){
         list.innerHTML += `<p class="empty">empty</p>`
