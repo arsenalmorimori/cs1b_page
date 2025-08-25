@@ -4,11 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <button class="user_login_btn">USER</button>
-    <button class="admin_login_user">ADMIN</button>
+    <div class="login_container">
+        <div class="wrapper">
+
+            <div class="top">
+                <img src="asset/img/logo.png">
+                <h1>Welcome to <strong>CS Page!</strong></h1>
+            </div>
+
+            <div class="bottom">
+                <div class="user_box">
+                    <button class="user_login_btn">USER</button>
+                    <button class="show_admin">login as admin</button>
+                </div>
+                <div class="admin_box">
+                    <input class="identification" type="password" placeholder="identification....">
+                    <button class="admin_login_btn">ADMIN</button>
+                    <button class="show_user">login as user</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

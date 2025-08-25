@@ -74,12 +74,18 @@ async function read(){
         spend_saving_btn = document.getElementsByClassName("spend_saving_btn")
      
         for(let b = 0 ; b < name_array_len ; b++){
-            spend_saving_btn[b].addEventListener("click", function(){
+            
+            if(localStorage.getItem("role") == "cs_user"){
+                spend_saving_btn[b].classList.add("hide")
+            }else if(localStorage.getItem("role") == "cs_admin" || localStorage.getItem("role") == "cs_dev"){
+                spend_saving_btn[b].addEventListener("click", function(){
                 getId = id_array[b]
                 getAmount = total_contribution_array[b]
                 spend_function(b)
 
-            })
+                })
+            }
+            
         }
 
 
@@ -88,7 +94,6 @@ async function read(){
 
         for(let c = 0 ; c < name_array_len ; c++){
             view_btn[c].addEventListener("click", function(){
-                console.log(this.value)
                 view_function(c)
             })
         }
@@ -99,11 +104,18 @@ async function read(){
 
         name_btn = document.getElementsByClassName("name_btn")
         for(let d = 0 ; d < name_array.length ; d ++){
-            name_btn[d].addEventListener("click", function(){
-                getId = id_array[d]
-                getAmount = total_contribution_array[d]
-                spend_function(d)
-            })
+            if(localStorage.getItem("role") == "cs_user"){
+                name_btn[d].addEventListener("click", function(){
+                    view_function(d)
+                })
+            }else if(localStorage.getItem("role") == "cs_admin" || localStorage.getItem("role") == "cs_dev"){
+                name_btn[d].addEventListener("click", function(){
+                    getId = id_array[d]
+                    getAmount = total_contribution_array[d]
+                    spend_function(d)
+                })
+            }
+           
         }
 
 
@@ -175,11 +187,16 @@ search_box.addEventListener("keyup", function search(){
         spend_saving_btn = document.getElementsByClassName("spend_saving_btn")
      
         for(let b = 0 ; b < name_array_len ; b++){
-            spend_saving_btn[b].addEventListener("click", function(){
-                console.log(this.value)
-                spend_function(b)
 
-            })
+            if(localStorage.getItem("role") == "cs_user"){
+                spend_saving_btn[b].classList.add("hide")
+            }else if(localStorage.getItem("role") == "cs_admin" || localStorage.getItem("role") == "cs_dev"){
+                spend_saving_btn[b].addEventListener("click", function(){
+                    console.log(this.value)
+                    spend_function(b)
+                })
+            }
+
         }
 
 
@@ -188,7 +205,6 @@ search_box.addEventListener("keyup", function search(){
 
         for(let c = 0 ; c < name_array_len ; c++){
             view_btn[c].addEventListener("click", function(){
-                console.log(this.value)
                 view_function(c)
             })
         }
@@ -198,9 +214,13 @@ search_box.addEventListener("keyup", function search(){
 
         name_btn = document.getElementsByClassName("name_btn")
         for(let d = 0 ; d < name_array.length ; d ++){
+            
             name_btn[d].addEventListener("click", function(){
-                spend_function(d)
-                
+                if(localStorage.getItem("role") == "cs_user"){
+                    view_function(d)
+                }else if(localStorage.getItem("role") == "cs_admin" || localStorage.getItem("role") == "cs_dev"){
+                    spend_function(d)
+                }
             })
         }
 

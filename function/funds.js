@@ -79,12 +79,17 @@ async function read(){
         add_btn = document.getElementsByClassName("add_btn")
      
         for(let b = 0 ; b < name_array_len ; b++){
-            add_btn[b].addEventListener("click", function(){
-                console.log(this.value)
-                add_function(b)
-                add_button_pressed(b)
+            if(localStorage.getItem("role") == "cs_user"){
+                add_btn[b].classList.add("hide")
+            }else if(localStorage.getItem("role") == "cs_admin" || localStorage.getItem("role") == "cs_dev"){
+                add_btn[b].addEventListener("click", function(){
+                    console.log(this.value)
+                    add_function(b)
+                    add_button_pressed(b)
 
-            })
+                })
+            }
+           
         }
 
 
@@ -93,7 +98,6 @@ async function read(){
 
         for(let c = 0 ; c < name_array_len ; c++){
             view_btn[c].addEventListener("click", function(){
-                console.log(this.value)
                 view_function(c)
             })
         }
@@ -103,17 +107,19 @@ async function read(){
         spend_btn2 = document.getElementsByClassName("spend_btn2")[0]
         spend_btn = document.getElementsByClassName("spend_btn")[0]
 
-        spend_btn2.addEventListener("click", function(){
-            // console.log("asasadaf")
-            // view_function(c)
-            spend_function()
-        })
-       
-        spend_btn.addEventListener("click", function(){
-            // console.log("asasadaf")
-            // view_function(c)
-            spend_function()
-        })
+        if(localStorage.getItem("role") == "cs_user"){
+            spend_btn.classList.add("hide")
+            spend_btn2.classList.add("hide")
+        }else if(localStorage.getItem("role") == "cs_admin" || localStorage.getItem("role") == "cs_dev"){
+            spend_btn2.addEventListener("click", function(){
+                spend_function()
+            })
+        
+            spend_btn.addEventListener("click", function(){
+                spend_function()
+            })
+        }
+        
        
 
         // FOR MOBILE INTERACTION
@@ -121,8 +127,11 @@ async function read(){
         name_btn = document.getElementsByClassName("name_btn")
         for(let d = 0 ; d < name_array.length ; d ++){
             name_btn[d].addEventListener("click", function(){
-                console.log(this.value)
-                add_function(d)
+                if(localStorage.getItem("role") == "cs_user"){
+                    view_function(d)
+                }else if(localStorage.getItem("role") == "cs_admin" || localStorage.getItem("role") == "cs_dev"){
+                    add_function(d)
+                }
             })
         }
 
@@ -195,12 +204,17 @@ search_box.addEventListener("keyup", function search(){
         add_btn = document.getElementsByClassName("add_btn")
      
         for(let b = 0 ; b < name_array_len ; b++){
-            add_btn[b].addEventListener("click", function(){
-                console.log(this.value)
-                add_function(b)
-                add_button_pressed(b)
 
-            })
+            
+            if(localStorage.getItem("role") == "cs_user"){
+                add_btn[b].classList.add("hide")
+            }else if(localStorage.getItem("role") == "cs_admin" || localStorage.getItem("role") == "cs_dev"){
+                add_btn[b].addEventListener("click", function(){
+                    add_function(b)
+                    add_button_pressed(b)
+                })
+            }
+            
         }
 
 
@@ -209,7 +223,6 @@ search_box.addEventListener("keyup", function search(){
 
         for(let c = 0 ; c < name_array_len ; c++){
             view_btn[c].addEventListener("click", function(){
-                console.log(this.value)
                 view_function(c)
             })
         }
@@ -220,8 +233,11 @@ search_box.addEventListener("keyup", function search(){
         name_btn = document.getElementsByClassName("name_btn")
         for(let d = 0 ; d < name_array.length ; d ++){
             name_btn[d].addEventListener("click", function(){
-                console.log(this.value)
-                add_function(d)
+                if(localStorage.getItem("role") == "cs_user"){
+                    view_function(d)
+                }else if(localStorage.getItem("role") == "cs_admin" || localStorage.getItem("role") == "cs_dev"){
+                    add_function(d)
+                }
             })
         }
 
@@ -536,3 +552,11 @@ read_expenses_here()
 read()
 
 
+
+
+
+
+// hide admin button if USER
+if(localStorage.getItem("role") == "cs_user"){
+
+}

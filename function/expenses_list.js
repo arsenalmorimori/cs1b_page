@@ -23,7 +23,7 @@ async function read_expenses() {
                             </div>
                             <div>
                                 <div class="preview_bg"></div>
-                                <img class="preview_receipt"  src="${element.image_link}"  alt="alt_image.jpg"/>
+                                <img class="preview_receipt"  src="${element.image_link}"  onerror="this.onerror=null; this.src='alt_image.jpg';"/>
                             </div>
                         </div>
             `

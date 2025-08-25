@@ -49,7 +49,7 @@ async function read_announcement() {
                                 </div>
                                 <div>
                                     <div class="preview_bg"></div>
-                                    <img class="preview_receipt" src=${element.image_link} alt="alt_image.jpg"/>
+                                    <img class="preview_receipt" src=${element.image_link} onerror="this.onerror=null; this.src='alt_image.jpg';"/>
                                 </div>
                             </div>
                 `
@@ -58,9 +58,14 @@ async function read_announcement() {
 
             delete_announcement_btn = document.getElementsByClassName("delete_announcement_btn")
             for(let a = 0 ;a < announcement_len ; a++){
-                delete_announcement_btn[a].addEventListener("click", function(){
-                    delete_announcement(this.value)
-                })
+
+                if(localStorage.getItem("role") == "cs_user"){
+                    delete_announcement_btn[a].classList.add("hide")
+                }else if(localStorage.getItem("role") == "cs_admin" || localStorage.getItem("role") == "cs_dev" ){
+                    delete_announcement_btn[a].addEventListener("click", function(){
+                        delete_announcement(this.value)
+                    })
+                }
             }
 
         });
@@ -75,25 +80,25 @@ async function read_announcement() {
                 preview_bg[bb].classList.toggle("enlarge")
             })
         }
-
-
         
 
         // if new_BTN isPRESS
         new_btn2 = document.getElementsByClassName("new_btn2")[0]
         new_btn = document.getElementsByClassName("new_btn")[0]
 
-        new_btn2.addEventListener("click", function(){
-            // console.log("asasadaf")
-            // view_function(c)
+         if(localStorage.getItem("role") == "cs_user"){
+                new_btn2.classList.add("hide")
+                new_btn.classList.add("hide")
+        }else if(localStorage.getItem("role") == "cs_admin" || localStorage.getItem("role") == "cs_dev"){
+            new_btn2.addEventListener("click", function(){
             new_function()
-        })
+            })
+            
+            new_btn.addEventListener("click", function(){
+                new_function()
+            })
+        }
         
-        new_btn.addEventListener("click", function(){
-            // console.log("asasadaf")
-            // view_function(c)
-            new_function()
-        })
     }
 
    
@@ -209,3 +214,7 @@ async function delete_announcement(id) {
 }
 
 read_announcement()
+
+
+
+

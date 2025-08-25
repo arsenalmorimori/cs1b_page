@@ -3,3 +3,4 @@ const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZi
 const receipt_webhook = "https://discord.com/api/webhooks/1408389849941147658/AOu5jnjtc9VSMBkkq30Hlks53BzYBrpeQTojpPvMOpXpxmjjY7cjDceUgN5BpYx1t7j_"
 const announece_webhook = "https://discord.com/api/webhooks/1408723254482436267/IvDOLJz0Z5vZ-FYU73WJMrWzVHPDsp-IhAAnnkbjeZPdn4BF0dV9E0ScZYdt8Ro6Md9i"
 const savings_webhook = "https://discord.com/api/webhooks/1408391028431392919/tU_EXK2jfXqKckPGogKd9clJ6JxF0vZfHqHY17gijtYNJZFh8BQecEUXqSVb_Z06fTSM"
+const admin_passcode = "cS1B_Addminn@XwLq8$"
